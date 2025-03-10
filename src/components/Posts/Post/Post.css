@@ -1,0 +1,15 @@
+.postParent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.eachPost{
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 20vh;
+    margin: 10px;
+}

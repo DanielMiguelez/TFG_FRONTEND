@@ -1,0 +1,8 @@
+.headerElements{
+    display: flex;
+    justify-content: space-around;
+}
+
+a{
+    all: unset;
+}
