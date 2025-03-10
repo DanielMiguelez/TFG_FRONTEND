@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import {useDispatch } from "react-redux";
+import { login } from "../../features/auth/authSlice";
 
-const Register = () => {
+const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: ""});
 
     const { email, password } = formData;
+
+
+    const dispatch = useDispatch();
 
     const onChange = (e) => {
         setFormData({
@@ -14,7 +19,7 @@ const Register = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log("formData", formData);
+        dispatch(login(formData))
     };
 
     return (
@@ -29,4 +34,4 @@ const Register = () => {
 
 };
 
-export default Register;
+export default Login;
