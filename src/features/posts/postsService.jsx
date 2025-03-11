@@ -17,9 +17,15 @@ const like = async(_id) => {
     return response.data;
 }
 
+const getById = async (id) => {
+    const res = await axios.get(API_URL + "/posts/getPostById/" + id);
+    return res.data;
+};
+
 const postsService = {
     getAllPosts,
-    like
+    like,
+    getById
 }
 
 export default postsService ;

@@ -9,6 +9,7 @@ import Header from './components/Header/Header';
 import Posts from './components/Posts/Posts';
 import Activities from './components/Activities/Activities';
 import Profile from './components/Profile/Profile';
+import PostDetail from './components/PostDetail/PostDetail';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/posts" element={<Posts/>} />
           <Route path="/activities" element={<Activities/>} />
           <Route path="/profile" element={<Profile/>} />
+          <Route path="/post/:id" element={<PostDetail/>} />
         </Routes>
       </BrowserRouter>
 
