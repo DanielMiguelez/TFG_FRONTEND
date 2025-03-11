@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import './Header.css'
 
@@ -9,7 +9,15 @@ const Header = () => {
 
   const { user } = useSelector((state) => state.auth)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+  const navigate = useNavigate();
+
+  const onLogout = () => {
+    dispatch(logout());
+    setTimeout(() => {
+      navigate("/login")
+    }, 1000);
+  }
 
   return (
     <div>
@@ -17,9 +25,14 @@ const Header = () => {
         <Link to="/">Home</Link>
         
         <Link to="/posts">Posts</Link>
+        <Link to="/activities">Activities</Link>
         {user ? (
-          <span onClick={()=>dispatch(logout())
-          }>Logout</span>
+          <>
+          <Link to="/profile">Profile</Link>
+          <span onClick={onLogout}>Logout</span>
+          
+          </>
+          
         ) : 
         <>
           <Link to="/login">Login</Link>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {useDispatch } from "react-redux";
 import { login } from "../../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: ""});
@@ -9,6 +10,14 @@ const Login = () => {
 
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+     const onLogin = (formData) => {
+        dispatch(login(formData));
+        setTimeout(() => {
+          navigate("/profile")
+        }, 1000);
+      }
 
     const onChange = (e) => {
         setFormData({
@@ -19,7 +28,7 @@ const Login = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(formData))
+        onLogin(formData)
     };
 
     return (

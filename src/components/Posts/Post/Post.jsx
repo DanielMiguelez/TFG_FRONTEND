@@ -1,10 +1,13 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import './Post.css'
+import { getAllPosts, like } from '../../../features/posts/postsSlice'
 
 const Post = () => {
 
     const {posts} = useSelector (state => state.posts)
+
+    const dispatch = useDispatch()
 
   return (
     <>
@@ -14,7 +17,8 @@ const Post = () => {
     <div >
         <div  >{posts.map (post => {
             return (
-                <div className='eachPost'>
+              
+                <div className='eachPost' key={post._id}>
                 <>
                 <span>{post.title}</span>
                 <br />
@@ -24,6 +28,8 @@ const Post = () => {
                 </>
                 <br />
                 <span>{post.likes.length} Likes</span>
+                <br />
+                <button onClick={()=>dispatch(like(post?._id))}>Like</button>
                 </div>
             )
         })}</div>

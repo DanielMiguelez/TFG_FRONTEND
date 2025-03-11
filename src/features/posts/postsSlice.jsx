@@ -16,15 +16,35 @@ export const getAllPosts = createAsyncThunk (
     }
 );
 
+export const like = createAsyncThunk(
+    "/posts/like",
+    async(_id)=>{
+        try {
+            return postsService.like(_id)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+)
+
 
 export const postsSlice = createSlice({
-    name: "products",
+    name: "posts",
     initialState,
     reducers : {},
     extraReducers :(builder) =>{
         builder 
             .addCase(getAllPosts.fulfilled, (state, action) =>{
                 state.posts = action.payload.posts
+            })
+            .addCase(like.fulfilled, (state, action)=>{
+                const posts = state.posts.map(post => {
+                    if(post._id == action.payload._id){
+                        post = action.payload
+                    }
+                    return post
+                })
+                state.posts = posts;
             })
     }
 })
