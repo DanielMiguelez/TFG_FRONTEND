@@ -1,13 +1,18 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './Post.css'
-import { like } from '../../../features/posts/postsSlice'
+import { getAllPosts, like } from '../../../features/posts/postsSlice'
 import { Link } from "react-router-dom";
 const Post = () => {
 
   const { posts } = useSelector(state => state.posts)
 
   const dispatch = useDispatch()
+
+  const onLike = async (id) =>{
+    await dispatch(like(id))
+    dispatch(getAllPosts())
+  }
 
   return (
     <>
@@ -31,7 +36,7 @@ const Post = () => {
                 <br />
                 <span>{post.likes.length} Likes</span>
                 <br />
-                <button onClick={() => dispatch(like(post?._id))}>Like</button>
+                <button onClick={() => onLike(post._id)}>Like</button>
               </div>
             )
           })}</div>

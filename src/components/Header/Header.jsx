@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import './Header.css'
@@ -12,6 +12,9 @@ const Header = () => {
   const dispatch = useDispatch(); 
   const navigate = useNavigate();
 
+  
+
+
   const onLogout = () => {
     dispatch(logout());
     setTimeout(() => {
@@ -22,12 +25,16 @@ const Header = () => {
   return (
     <div>
       <nav className='headerElements'>
+        
         <Link to="/">Home</Link>
         
         <Link to="/posts">Posts</Link>
         <Link to="/activities">Activities</Link>
         {user ? (
           <>
+          
+         { console.log(user)}
+          {user?.user?.role === 'admin' ? <span><Link to="/admin">Admin</Link></span>:''}
           <Link to="/profile">Profile</Link>
           <span onClick={onLogout}>Logout</span>
           

@@ -10,6 +10,7 @@ import Posts from './components/Posts/Posts';
 import Activities from './components/Activities/Activities';
 import Profile from './components/Profile/Profile';
 import PostDetail from './components/PostDetail/PostDetail';
+import Admin from "./components/Admin/Admin";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/activities" element={<Activities/>} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/post/:id" element={<PostDetail/>} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
 

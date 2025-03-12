@@ -4,14 +4,15 @@ import postsService from "./postsService"
 const initialState = {
     posts: [],
     isLoading: false,
-    post:{}
+    post: {},
+    error: null,
 }
 
 export const getAllPosts = createAsyncThunk(
     "/posts/getAllPosts",
     async () => {
         try {
-            return postsService.getAllPosts()
+            return await postsService.getAllPosts()
         } catch (error) {
             console.error(error)
         }
@@ -22,20 +23,32 @@ export const like = createAsyncThunk(
     "/posts/like",
     async (_id) => {
         try {
-            return postsService.like(_id)
+            return await postsService.like(_id)
         } catch (error) {
             console.error(error)
         }
     }
 );
 
-export const getById = createAsyncThunk("posts/getById", async (id) => {
+export const getById = createAsyncThunk("posts/getById/", async (id) => {
     try {
         return await postsService.getById(id);
     } catch (error) {
         console.error(error);
     }
 });
+
+export const deletePost = createAsyncThunk(
+    "posts/deletePost",
+    async (id) => {
+        try {
+            const response = await postsService.deletePost(id);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
 
 export const postsSlice = createSlice({
     name: "posts",
@@ -55,9 +68,14 @@ export const postsSlice = createSlice({
                 })
                 state.posts = posts;
             })
-            builder.addCase(getById.fulfilled, (state, action) => {
-                state.post = action.payload.post; 
-            });
+            .addCase(getById.fulfilled, (state, action) => {
+                state.post = action.payload.post;
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                state.posts = state.posts.filter((post) => post._id !== action.payload._id);
+            })
+            
+
     }
 })
 
