@@ -1,16 +1,22 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './Post.css'
-import { getAllPosts, like } from '../../../features/posts/postsSlice'
+import { getAllPosts, like, unlike } from '../../../features/posts/postsSlice'
 import { Link } from "react-router-dom";
+import { HeartOutlined, DislikeOutlined} from '@ant-design/icons';
+
 const Post = () => {
 
   const { posts } = useSelector(state => state.posts)
-
   const dispatch = useDispatch()
 
   const onLike = async (id) =>{
     await dispatch(like(id))
+    dispatch(getAllPosts())
+  }
+
+  const onUnlike = async (id) => {
+    await dispatch(unlike(id))
     dispatch(getAllPosts())
   }
 
@@ -36,7 +42,9 @@ const Post = () => {
                 <br />
                 <span>{post.likes.length} Likes</span>
                 <br />
-                <button onClick={() => onLike(post._id)}>Like</button>
+                <button onClick={() => onLike(post._id)}><HeartOutlined /></button>
+                <br />
+                <button onClick={() => onUnlike(post._id)}><DislikeOutlined /></button>
               </div>
             )
           })}</div>

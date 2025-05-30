@@ -1,7 +1,8 @@
 import PostAdmin from "./PostAdmin/PostAdmin"
-import { useDispatch, useSelector } from "react-redux";
-import { getAllPosts, reset } from "../../features/posts/postsSlice";
+import { useDispatch } from "react-redux";
+import { getAllPosts } from "../../features/posts/postsSlice";
 import { useEffect } from "react";
+import './Admin.css';
 
 const Admin = () => {
     const dispatch = useDispatch();
@@ -14,11 +15,14 @@ const Admin = () => {
         getPosts();
     }, []);
 
-
     return (
-        <div>
-            <h1>Admin</h1>
-            <PostAdmin />
+        <div className="admin-container">
+            <div className="admin-header">
+                <h1>Tu zona de administrador</h1>
+            </div>
+            <div className="admin-section">
+                <PostAdmin />
+            </div>
         </div>
     )
 }

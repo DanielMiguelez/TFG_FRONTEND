@@ -1,20 +1,44 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import './Profile.css'
 
 const Profile = () => {
+  const { user } = useSelector((state) => state.auth)
 
-  const {user} = useSelector((state) => state.auth)
-
-  if(!user){
-    return <span>Cargando información</span>
+  // Si no hay usuario o está cargando
+  if (!user || !user.user) {
+    return (
+      <div className="loading-state">
+        Cargando información...
+      </div>
+    )
   }
 
+  // Desestructuramos los datos del usuario para mayor claridad
+  const { name, email, _id } = user.user
+
   return (
-     <div>
-      <h1>Profile</h1>
-      <p>{user.user?.name}</p>
-      <p>{user.user?.email}</p>
-      <p>{user?.user?.id}</p>
+    <div className="profile-container">
+      <div className="profile-header">
+        <h1>Mi Perfil</h1>
+      </div>
+      
+      <div className="profile-info">
+        <div className="info-item">
+          <span className="info-label">Nombre:</span>
+          <span className="info-value">{name || 'No disponible'}</span>
+        </div>
+        
+        <div className="info-item">
+          <span className="info-label">Email:</span>
+          <span className="info-value">{email || 'No disponible'}</span>
+        </div>
+        
+        <div className="info-item">
+          <span className="info-label">ID:</span>
+          <span className="info-value">{_id || 'No disponible'}</span>
+        </div>
+      </div>
     </div>
   )
 }

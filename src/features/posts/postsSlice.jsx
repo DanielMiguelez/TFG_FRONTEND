@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import postsService from "./postsService"
+import { toast } from 'react-toastify';
+
 
 const initialState = {
     posts: [],
@@ -26,6 +28,18 @@ export const like = createAsyncThunk(
             return await postsService.like(_id)
         } catch (error) {
             console.error(error)
+        }
+    }
+);
+
+export const unlike = createAsyncThunk(
+    "/posts/unlike",
+    async (_id) => {
+        try {
+            return await postsService.unlike(_id);
+        } catch (error) {
+            console.error(error);
+            throw error;
         }
     }
 );
@@ -60,21 +74,43 @@ export const postsSlice = createSlice({
                 state.posts = action.payload.posts
             })
             .addCase(like.fulfilled, (state, action) => {
-                const posts = state.posts.map(post => {
-                    if (post._id == action.payload._id) {
-                        post = action.payload
-                    }
-                    return post
-                })
-                state.posts = posts;
+                const updatedPost = action.payload?.post;
+
+                if (!updatedPost || !updatedPost._id) {
+                    console.warn("Like fallido o sin post válido:", action.payload);
+                    return;
+                }
+
+                state.posts = state.posts.map(post =>
+                    post._id === updatedPost._id ? updatedPost : post
+                );
             })
+
+            .addCase(unlike.fulfilled, (state, action) => {
+                const updatedPost = action.payload.post;
+                if (!updatedPost || !updatedPost._id) {
+                    console.warn("Unlike fallido o sin post válido:", action.payload);
+                    return;
+                }
+                state.posts = state.posts.map(post =>
+                    post._id === updatedPost._id ? updatedPost : post
+                );
+            })
+            .addCase(unlike.rejected, (state, action) => {
+                state.error = "No se pudo quitar el like";
+            })
+
+            .addCase(like.rejected, (state, action) => {
+                toast.error("Ya diste like a este post");
+            })
+
             .addCase(getById.fulfilled, (state, action) => {
                 state.post = action.payload.post;
             })
             .addCase(deletePost.fulfilled, (state, action) => {
                 state.posts = state.posts.filter((post) => post._id !== action.payload._id);
             })
-            
+
 
     }
 })

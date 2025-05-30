@@ -17,6 +17,16 @@ const like = async(_id) => {
     return response.data;
 }
 
+const unlike = async (_id) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const response = await axios.put(API_URL + "/posts/unlike/" + _id, {}, {
+      headers: {
+        authorization: user?.token,
+      },
+    });
+    return response.data;
+  };
+
 const getById = async (id) => {
     const res = await axios.get(API_URL + "/posts/getPostById/" + id);
     return res.data;
@@ -42,6 +52,7 @@ const deletePost = async (id) =>{
 const postsService = {
     getAllPosts,
     like,
+    unlike,
     getById,
     getPostByName, 
     deletePost

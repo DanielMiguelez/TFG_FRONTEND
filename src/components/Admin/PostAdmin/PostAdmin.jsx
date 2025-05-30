@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost, getAllPosts } from "../../../features/posts/postsSlice";
+import './PostAdmin.css';
 
 const PostAdmin = () => {
-    const { posts} = useSelector((state) => state.posts);
+    const { posts } = useSelector((state) => state.posts);
     const dispatch = useDispatch();
 
     const onDelete = async (id) => {
@@ -14,23 +15,32 @@ const PostAdmin = () => {
         }
     };
 
-    const postsAdmin = posts.map((post) => {
+    if (posts.length === 0) {
         return (
-            <div key={post._id}>
-                <h3>{post.title}</h3>
-                <p>{post.content}</p>
-                    <button onClick={() => onDelete(post._id)}>Delete</button>
+            <div className="no-posts">
+                No hay posts disponibles en este momento
             </div>
         );
-    });
+    }
 
     return (
         <div className="admin-posts">
-            {posts.length === 0 ? (
-                <p>No posts available</p>
-            ) : (
-                <div className="posts-container">{postsAdmin}</div>
-            )}
+            <div className="posts-container">
+                {posts.map((post) => (
+                    <div key={post._id} className="post-card">
+                        <h3>{post.title}</h3>
+                        <p>{post.content}</p>
+                        <div className="post-actions">
+                            <button 
+                                className="delete-button"
+                                onClick={() => onDelete(post._id)}
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

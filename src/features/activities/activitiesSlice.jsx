@@ -9,14 +9,29 @@ export const getAllActivities = createAsyncThunk(
     "/activities/getAllActivities",
     async() =>{
         try {
-            return activitiesService.getAllActivities()
+            return await activitiesService.getAllActivities()
         } catch (error) {
             console.error(error)
         }
     }
 );
 
+export const joinActicity = createAsyncThunk(
+    "activities/joinActivity",
+    async (_id) => {
+      return await activitiesService.joinActicity(_id);
+    }
+  );
+  
 
+
+export const leaveActivity = createAsyncThunk(
+    'activities/leaveActivity',
+    async (_id) => {
+      return await activitiesService.leaveActivity(_id);
+    }
+  );
+  
 export const activitiesSlice = createSlice({
     name: "activities",
     initialState,

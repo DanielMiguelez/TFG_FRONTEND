@@ -1,0 +1,19 @@
+/* Asegúrate de que el contenedor del Swiper ocupe todo el ancho disponible */
+.swiper-container {
+    width: 100%;
+    height: 50vh; /* Esto hace que ocupe toda la altura de la pantalla */
+  }
+  
+  /* Imagen dentro del SwiperSlide */
+  .swiper-slide img {
+    width: 100%; /* La imagen ocupará todo el ancho */
+    height: auto; /* Ajustará la altura proporcionalmente */
+    object-fit: cover; /* Para que la imagen cubra el área sin distorsionarse */
+    border-radius: 10px; /* Opcional: añade bordes redondeados a la imagen */
+  }
+  
+  /* Opcionalmente, puedes ajustar la altura según tus preferencias */
+  .swiper-slide {
+    height: 30vh; /* Ajusta la altura que prefieras */
+  }
+  
