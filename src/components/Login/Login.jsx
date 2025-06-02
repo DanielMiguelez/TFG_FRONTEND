@@ -3,12 +3,13 @@ import {useDispatch } from "react-redux";
 import { login } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { notification } from 'antd';
+import "./Login.css";
+
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: ""});
 
     const { email, password } = formData;
-
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -60,7 +61,7 @@ const Login = () => {
             <input type="email" name="email" value={email} onChange={onChange} />
             <input type="password" name="password" value={password} onChange={onChange} />
 
-            <button type="submit">Login</button>
+            <button type="submit" className="login-button">Login</button>
         </form>
 
     );

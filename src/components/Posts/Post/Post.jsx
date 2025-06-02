@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import './Post.css'
 import { getAllPosts, like, unlike } from '../../../features/posts/postsSlice'
 import { Link } from "react-router-dom";
-import { HeartOutlined, DislikeOutlined} from '@ant-design/icons';
+import { HeartOutlined, DislikeOutlined } from '@ant-design/icons';
 
 const Post = () => {
 
   const { posts } = useSelector(state => state.posts)
   const dispatch = useDispatch()
 
-  const onLike = async (id) =>{
+  const onLike = async (id) => {
     await dispatch(like(id))
     dispatch(getAllPosts())
   }
@@ -23,9 +23,8 @@ const Post = () => {
   return (
     <>
       <div className='postParent'>
-        <h3>Posts</h3>
 
-        <div >
+        <div>
           <div  >{posts.map(post => {
             return (
 
@@ -34,17 +33,29 @@ const Post = () => {
                   <Link to={"/post/" + post._id}>
                     <p>{post.title}</p>
                   </Link>
-                  <br />
+                 
+                  {post.image && (
+                    <img
+                      src={`http://localhost:8000/uploads/${post.image}`}
+                      alt="Post"
+                      className="post-image"
+                    />
+                  )}
                   <span>{post.content}</span>
-                  <br />
-                  <span>{post.date}</span>
+                  
                 </>
-                <br />
+                
                 <span>{post.likes.length} Likes</span>
-                <br />
+              
+                <div className="buttons">
                 <button onClick={() => onLike(post._id)}><HeartOutlined /></button>
-                <br />
+              
                 <button onClick={() => onUnlike(post._id)}><DislikeOutlined /></button>
+
+                
+                </div>
+                
+                <span>{post.date}</span>
               </div>
             )
           })}</div>

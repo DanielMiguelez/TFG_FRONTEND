@@ -5,6 +5,7 @@ import { getAllActivities, joinActicity, leaveActivity } from '../../../features
 import './Activity.css';
 
 const Activity = () => {
+
   const { activities } = useSelector(state => state.activities)
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.auth);
@@ -12,6 +13,8 @@ const Activity = () => {
   useEffect(() => {
     dispatch(getAllActivities());
   }, [dispatch]);
+
+  console.log("Actividades:", activities);
 
   const handleJoin = async (id) => {
     await dispatch(joinActicity(id));
@@ -40,6 +43,13 @@ const Activity = () => {
           return (
             <div className='activityBox' key={activity._id || index}>
               <span className="activity-title">{activity.title}</span>
+              {activity.image && (
+    <img
+      src={`http://localhost:8000${activity.image}`} 
+      alt={activity.title}
+      className="activity-image"
+    />
+  )}
               <span className="activity-date">{new Date(activity.date).toLocaleDateString('es-ES', {
                 year: 'numeric',
                 month: 'long',
@@ -48,7 +58,7 @@ const Activity = () => {
                 minute: '2-digit'
               })}</span>
               <span className="activity-description">{activity.description}</span>
-              <span className="activity-user">Creado por: {activity.userId}</span>
+              <span className="activity-user">Creado por: {user?.user?.name}</span>
 
               <div className="activity-actions">
                 <button onClick={() => handleJoin(activity._id)} >

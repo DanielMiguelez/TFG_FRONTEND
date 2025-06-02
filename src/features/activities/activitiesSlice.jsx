@@ -5,6 +5,14 @@ const initialState ={
     activities : []
 } 
 
+export const createActivity = createAsyncThunk(
+    "activities/createActivity",
+    async (formData) => {
+      const response = await activitiesService.createActivity(formData);
+      return response.activity; // Asumo que el backend devuelve el objeto en response.activity
+    }
+  );
+
 export const getAllActivities = createAsyncThunk(
     "/activities/getAllActivities",
     async() =>{
@@ -41,6 +49,9 @@ export const activitiesSlice = createSlice({
             .addCase(getAllActivities.fulfilled, (state, action) =>{
                 state.activities = action.payload.activities
             })
+            .addCase(createActivity.fulfilled, (state, action) => {
+              state.activities.push(action.payload.activity);             
+             });
     }
 })
 

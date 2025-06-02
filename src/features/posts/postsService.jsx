@@ -2,60 +2,93 @@ import axios from "axios"
 
 const API_URL = "http://localhost:8000";
 
-const getAllPosts = async() =>{
-    const response = await axios.get(API_URL + "/posts/getAllPosts")
-    return response.data;
+
+const getToken = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user?.token;
+};
+
+const createPost = async (postData) => {
+  const token = getToken();
+
+  const response = await axios.post(
+    `${API_URL}/posts/createPost`,
+    postData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+  );
+
+  return response.data;
 }
 
-const like = async(_id) => {
-    const user = JSON.parse(localStorage.getItem("user"))
-    const response = await axios.put(API_URL + "/posts/like/" +_id, {}, {
-        headers:{
-            authorization: user?.token,
-        }
-    })
-    return response.data;
+
+const getAllPosts = async () => {
+  const response = await axios.get(API_URL + "/posts/getAllPosts")
+  return response.data;
 }
+
+const like = async (_id) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const response = await axios.put(
+    API_URL + "/posts/like/" + _id,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    }
+  );
+  return response.data;
+};
 
 const unlike = async (_id) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const response = await axios.put(API_URL + "/posts/unlike/" + _id, {}, {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const response = await axios.put(
+    API_URL + "/posts/unlike/" + _id,
+    {},
+    {
       headers: {
-        authorization: user?.token,
+        Authorization: `Bearer ${user?.token}`,
       },
-    });
-    return response.data;
-  };
+    }
+  );
+  return response.data;
+};
 
 const getById = async (id) => {
-    const res = await axios.get(API_URL + "/posts/getPostById/" + id);
-    return res.data;
+  const res = await axios.get(API_URL + "/posts/getPostById/" + id);
+  return res.data;
 };
 
 
 const getPostByName = async (title) => {
-    const response = await axios.get(API_URL + "/posts/getPostByTitle/" + title);
-    return response.data; 
+  const response = await axios.get(API_URL + "/posts/getPostByTitle/" + title);
+  return response.data;
 };
 
-const deletePost = async (id) =>{
-    const user = JSON.parse(localStorage.getItem("user"))
+const deletePost = async (id) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const response = await axios.delete(API_URL + "/posts/deletePostById/" + id, {
+    headers: {
+      Authorization: `Bearer ${user?.token}`,
+    },
+  });
+  return response.data;
+};
 
-    const response = await axios.delete(API_URL + "/posts/deletePostById/" +id, {
-        headers: {
-            authorization:user?.token
-        }
-    })
-    return response.data
-}
 
 const postsService = {
-    getAllPosts,
-    like,
-    unlike,
-    getById,
-    getPostByName, 
-    deletePost
+  createPost,
+  getAllPosts,
+  like,
+  unlike,
+  getById,
+  getPostByName,
+  deletePost
 }
 
-export default postsService ;
+export default postsService;

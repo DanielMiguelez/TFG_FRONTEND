@@ -6,8 +6,9 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 const images = [
-  require('../../media/image3.jpg'),
-  require('../../media/image3.jpg'),
+  require('../../media/neighborhood.jpg'),
+  require('../../media/1636654442917.png'),
+  require('../../media/exterior-design-with-flat-building-vector.jpg'),
 ];
 
 export default function Carousel() {

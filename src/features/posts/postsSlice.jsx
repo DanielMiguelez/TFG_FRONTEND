@@ -10,6 +10,17 @@ const initialState = {
     error: null,
 }
 
+export const createPost = createAsyncThunk(
+    'posts/createPost',
+    async ({ formData, token }, thunkAPI) => {
+        try {
+            return await postsService.createPost(formData, token);
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response.data);
+        }
+    }
+)
+
 export const getAllPosts = createAsyncThunk(
     "/posts/getAllPosts",
     async () => {
@@ -70,6 +81,18 @@ export const postsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(createPost.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(createPost.fulfilled, (state, action) => {
+                state.loading = false;
+                state.posts.push(action.payload.post);
+            })
+            .addCase(createPost.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload.msg || 'Error creating post';
+            })
+
             .addCase(getAllPosts.fulfilled, (state, action) => {
                 state.posts = action.payload.posts
             })

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getById } from "../../features/posts/postsSlice";
 import { useEffect } from "react";
+import "./PostDetail.css"
 
 const PostDetail = () => {
 
@@ -16,15 +17,19 @@ const PostDetail = () => {
 
     return (
 
-        <div>
+        <div  className="container">
 
-            <h1>PostDetail</h1>
+            <p className="title">{post?.title}</p>
 
-            <p>{post?.title}</p>
+            <img
+                      src={`http://localhost:8000/uploads/${post.image}`}
+                      alt="Post"
+                      className="post-image"
+                    />
 
-            <p>{post?.content}</p>
+            <p className="content">{post?.content}</p>
 
-            <p>{post?.date}</p>
+            <p className="date">{post?.date}</p>
 
         </div>
 

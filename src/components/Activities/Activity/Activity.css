@@ -1,3 +1,16 @@
+button{
+  background-color: rgb(145, 229, 145);
+  padding: 5px;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: greenyellow;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
+}
+
 .parentActivities {
   max-width: 1200px;
   margin: 2rem auto;
