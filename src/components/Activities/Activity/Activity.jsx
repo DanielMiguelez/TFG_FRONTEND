@@ -44,12 +44,12 @@ const Activity = () => {
             <div className='activityBox' key={activity._id || index}>
               <span className="activity-title">{activity.title}</span>
               {activity.image && (
-    <img
-      src={`http://localhost:8000${activity.image}`} 
-      alt={activity.title}
-      className="activity-image"
-    />
-  )}
+                <img
+                  src={`http://localhost:8000${activity.image}`}
+                  alt={activity.title}
+                  className="activity-image"
+                />
+              )}
               <span className="activity-date">{new Date(activity.date).toLocaleDateString('es-ES', {
                 year: 'numeric',
                 month: 'long',
@@ -58,7 +58,9 @@ const Activity = () => {
                 minute: '2-digit'
               })}</span>
               <span className="activity-description">{activity.description}</span>
-              <span className="activity-user">Creado por: {user?.user?.name}</span>
+              <span className="activity-user">
+                Creado por: {activity.userId?.name || 'Desconocido'}
+              </span>
 
               <div className="activity-actions">
                 <button onClick={() => handleJoin(activity._id)} >
