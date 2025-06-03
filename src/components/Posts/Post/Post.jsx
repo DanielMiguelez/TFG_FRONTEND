@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { HeartOutlined, DislikeOutlined } from '@ant-design/icons';
 
 const Post = () => {
-
   const { posts } = useSelector(state => state.posts)
   const dispatch = useDispatch()
 
@@ -22,45 +21,32 @@ const Post = () => {
 
   return (
     <>
-      <div className='postParent'>
-
-        <div>
-          <div  >{posts.map(post => {
-            return (
-
-              <div className='eachPost' key={post._id}>
-                <>
-                  <Link to={"/post/" + post._id}>
-                    <p>{post.title}</p>
-                  </Link>
-                 
-                  {post.image && (
-                    <img
-                      src={`http://localhost:8000/uploads/${post.image}`}
-                      alt="Post"
-                      className="post-image"
-                    />
-                  )}
-                  <span>{post.content}</span>
-                  
-                </>
-                
-                <span>{post.likes.length} Likes</span>
-              
-                <div className="buttons">
-                <button onClick={() => onLike(post._id)}><HeartOutlined /></button>
-              
-                <button onClick={() => onUnlike(post._id)}><DislikeOutlined /></button>
-
-                
-                </div>
-                
-                <span>{post.date}</span>
-              </div>
-            )
-          })}</div>
+      {posts.map(post => (
+        <div className='postParent' key={post._id}>
+          <div className='eachPost'>
+            <Link to={"/post/" + post._id}>
+              <p>{post.title}</p>
+            </Link>
+            
+            {post.image && (
+              <img
+                src={`http://localhost:8000/uploads/${post.image}`}
+                alt="Post"
+                className="post-image"
+              />
+            )}
+            <span>{post.content}</span>
+            <span>{post.likes.length} Likes</span>
+            
+            <div className="buttons">
+              <button onClick={() => onLike(post._id)}><HeartOutlined /></button>
+              <button onClick={() => onUnlike(post._id)}><DislikeOutlined /></button>
+            </div>
+            
+            <span>{post.date}</span>
+          </div>
         </div>
-      </div>
+      ))}
     </>
   )
 }

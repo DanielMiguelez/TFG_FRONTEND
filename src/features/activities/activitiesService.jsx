@@ -24,6 +24,16 @@ const getAllActivities = async () => {
   return response.data
 }
 
+const deleteActivity = async (id) => {
+  const token = getToken();
+  const response = await axios.delete(`${API_URL}/activities/deleteActivity/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
 const joinActicity = async (_id) => {
   const token = getToken();
   const response = await axios.put(
@@ -57,7 +67,8 @@ const activitiesService = {
   createActivity,
   getAllActivities,
   joinActicity,
-  leaveActivity
+  leaveActivity,
+  deleteActivity
 }
 
 export default activitiesService;

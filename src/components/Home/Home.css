@@ -8,6 +8,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-content: center;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -21,6 +22,7 @@
   margin: 20px auto;
   flex-wrap: wrap;
   justify-content: center;
+  align-content: center;
   max-width: 900px;
   margin-bottom: 50px;
   width: 100%;
@@ -30,16 +32,17 @@
   flex: 1;
   min-width: 250px;
   max-width: 400px;
-  background-color: #ffffff;
-  padding: 15px;
+  background-color: white;
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }
 
 .form-section h2 {
-  margin-bottom: 15px;
-  color: #000000;
-  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
 }
 
 .create-form {
@@ -49,44 +52,59 @@
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
-  font-weight: 500;
-  color: #000000;
-  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
 }
 
-.form-group input,
-.form-group textarea {
-  padding: 6px 10px;
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
 }
 
-.form-group textarea {
-  min-height: 80px;
-  resize: vertical;
+.form-group input[type="file"] {
+  border: 1px dashed #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #40a9ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
 .submit-button {
-  background-color: #007bff;
+  background-color: #1890ff;
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: background-color 0.2s;
-  margin-top: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
-  background-color: #609ee0;
+  background-color: #40a9ff;
+}
+
+.submit-button:active {
+  background-color: #096dd9;
 }
 
 /* Estilos responsivos */
@@ -100,4 +118,33 @@
     width: 100%;
     max-width: 100%;
   }
+}
+
+/* Estilos para las notificaciones */
+.custom-success-notification .ant-notification-notice-icon {
+  color: #008000 !important;
+}
+
+.custom-success-notification .success-icon {
+  color: #008000 !important;
+  fill: #008000 !important;
+}
+
+.custom-success-notification svg {
+  color: #008000 !important;
+  fill: #008000 !important;
+}
+
+.ant-notification-notice-success {
+  border-left: 4px solid #008000 !important;
+}
+
+.ant-notification-notice-error {
+  border-left: 4px solid #ff4d4f !important;
+}
+
+/* Override global SVG styles */
+.success-icon svg path {
+  fill: #008000 !important;
+  color: #008000 !important;
 }

@@ -1,5 +1,23 @@
 .posts-container {
-    display: flex;
-    height: 100vh;
-    
-  }
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 posts por fila */
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: auto;
+}
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 1024px) {
+    .posts-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 posts por fila en tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .posts-container {
+        grid-template-columns: 1fr; /* 1 post por fila en móviles */
+    }
+}

@@ -14,7 +14,6 @@ const Profile = () => {
     )
   }
 
-  // Desestructuramos los datos del usuario para mayor claridad
   const { name, email, _id } = user.user
 
   return (

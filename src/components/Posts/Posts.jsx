@@ -8,12 +8,14 @@ const Posts = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-     dispatch(getAllPosts())
-    }, [])
+        dispatch(getAllPosts())
+    }, [dispatch])
     
-  return (
-    <div className='posts-container'>{<Post/>}</div>
-  )
+    return (
+        <div className='posts-container'>
+            <Post />
+        </div>
+    )
 }
 
 export default Posts

@@ -1,10 +1,16 @@
-.loginForm{
+.registerForm{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10vh;
     gap: 40px;
+}
+
+.registerForm h3 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 form{
@@ -14,8 +20,38 @@ form{
     gap: 20px;
 }
 
+span{
+    font-size: medium;
+}
+
 input{
-    height: 30px;
+    height: 40px;
+    padding: 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #4096ff;
+    box-shadow: 0 0 0 2px rgba(64, 150, 255, 0.1);
+}
+
+.register-button {
+    height: 40px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: #40a9ff;
 }
 
 /* Estilos para las notificaciones */

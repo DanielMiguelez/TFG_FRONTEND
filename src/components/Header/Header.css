@@ -8,7 +8,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: linear-gradient(135deg, #1abc9c, #16a085); 
+    background-image:url(../../media/green-abstract-background-design-with-elegant-elements-illustration-vector.jpg);
+    background-size: cover;
     color: white;
     padding: 15px 0;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
