@@ -37,11 +37,22 @@ const getAllUsers = async (token) => {
     return response.data;
 };
 
+const deleteUser = async (_id) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const response = await axios.delete(`${API_URL}/users/deleteUser/${_id}`, {
+        headers: {
+            Authorization: `Bearer ${user.token}`
+        }
+    });
+    return response.data;
+};
+
 const authService = {
     register,
     login,
     logout,
-    getAllUsers
+    getAllUsers,
+    deleteUser
 };
 
 export default authService;

@@ -60,6 +60,19 @@ export const getAllUsers = createAsyncThunk(
     }
 );
 
+export const deleteUser = createAsyncThunk(
+    "auth/deleteUser",
+    async (_id, thunkAPI) => {
+        try {
+            const response = await authService.deleteUser(_id);
+            return { _id, response };
+        } catch (error) {
+            const message = error.response?.data?.message || error.message || error.toString();
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -102,6 +115,19 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.error = action.payload;
                 state.allUsers = [];
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.allUsers = state.allUsers.filter(user => user._id !== action.payload._id);
+                state.error = null;
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
             });
     }
 });

@@ -66,11 +66,37 @@
 .buttons {
     display: flex;
     justify-content: center;
+    gap: 10px;
     margin: 10px 0;
 }
 
-.eachPost button:hover {
-    transform: scale(1.05);
+.buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.buttons button svg {
+    font-size: 20px;
+}
+
+.buttons button:first-child svg {
+    color: #ff4d4f;
+}
+
+.buttons button:last-child svg {
+    color: #595959;
 }
 
 .eachPost a {
@@ -89,5 +115,38 @@ svg {
     border-radius: 10px;
     margin: 10px auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para las notificaciones */
+.custom-success-notification .ant-notification-notice-icon {
+    color: #008000 !important;
+}
+
+.custom-success-notification .success-icon {
+    color: #008000 !important;
+    fill: #008000 !important;
+}
+
+.custom-success-notification svg {
+    color: #008000 !important;
+    fill: #008000 !important;
+}
+
+.ant-notification-notice-success {
+    border-left: 4px solid #008000 !important;
+}
+
+.ant-notification-notice-error {
+    border-left: 4px solid #ff4d4f !important;
+}
+
+.ant-notification-notice-info {
+    border-left: 4px solid #1890ff !important;
+}
+
+/* Override global SVG styles */
+.success-icon svg path {
+    fill: #008000 !important;
+    color: #008000 !important;
 }
   

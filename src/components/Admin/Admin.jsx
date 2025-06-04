@@ -1,9 +1,11 @@
 import PostAdmin from "./PostAdmin/PostAdmin"
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../features/posts/postsSlice";
-import { getAllUsers } from "../../features/auth/authSlice";
+import { getAllUsers, deleteUser } from "../../features/auth/authSlice";
 import { getAllActivities, deleteActivity } from "../../features/activities/activitiesSlice";
 import { useEffect, useState } from "react";
+import { notification } from 'antd';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 import './Admin.css';
 
 const Admin = () => {
@@ -12,7 +14,23 @@ const Admin = () => {
     const {allActivities, isLoading:activitiesLoading} = useSelector((state) => state.activities)
     const [showUsers, setShowUsers] = useState(false);
     const [showActivities, setShowActivities] = useState(false);
+    const [api, contextHolder] = notification.useNotification();
 
+    const showSuccessNotification = (message) => {
+        api.success({
+            message: 'Éxito',
+            description: message,
+            icon: <CheckCircleFilled style={{ color: '#52c41a' }} />
+        });
+    };
+
+    const showErrorNotification = (message) => {
+        api.error({
+            message: 'Error',
+            description: message,
+            icon: <CloseCircleFilled style={{ color: '#ff4d4f' }} />
+        });
+    };
 
     const getPosts = () => {
         dispatch(getAllPosts());
@@ -34,12 +52,25 @@ const Admin = () => {
         }
     };
 
+    const handleDeleteUser = async (id) => {
+        if(window.confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+            try {
+                await dispatch(deleteUser(id)).unwrap();
+                showSuccessNotification('Usuario eliminado correctamente');
+                dispatch(getAllUsers());
+            } catch (error) {
+                showErrorNotification('Error al eliminar el usuario');
+            }
+        }
+    };
+
     useEffect(() => {
         getPosts();
     }, []);
 
     return (
         <div className="admin-container">
+            {contextHolder}
             <div className="admin-header">
                 <h1>Tu zona de administrador</h1>
             </div>
@@ -72,6 +103,12 @@ const Admin = () => {
                                                 <p><strong>Nombre:</strong> {user.name}</p>
                                                 <p><strong>Email:</strong> {user.email}</p>
                                                 <p><strong>ID:</strong> {user._id}</p>
+                                                <button 
+                                                    onClick={() => handleDeleteUser(user._id)}
+                                                    className="delete-user-button"
+                                                >
+                                                    Eliminar Usuario
+                                                </button>
                                             </div>
                                         </div>
                                     ))
