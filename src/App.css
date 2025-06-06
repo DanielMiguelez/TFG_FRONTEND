@@ -3,9 +3,80 @@
     box-sizing: border-box;
 }
 
+.App {
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+}
+
+.background-image-1 {
+    position:absolute;
+    top: 25%;
+    left: 5%;
+    width: 300px;
+    height: 300px;
+    background-image: url("../src/media/people-talking-to-each-other-vector-removebg-preview.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.background-image-2 {
+    position: absolute;
+    top: 30%;
+    right: 5%;
+    width: 300px;
+    height: 300px;
+    background-image: url("../src/media/00fe711285e97758458b57bf10433161-removebg-preview.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.background-image-3 {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    width: 300px;
+    height: 300px;
+    background-image: url("../src/media/pngtree-illustration-of-two-person-talking-png-image_2143711-removebg-preview.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+.background-image-4 {
+    position: absolute;
+    top: 67%;
+    left: 5%;
+    width: 400px;
+    height: 300px;
+    background-image: url("../src/media/images-removebg-preview.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    z-index: -1;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    background:#3bc976; /* Degradado suave */
-  }
+    background: linear-gradient(135deg, #3bc976 0%, #2a9d8f 100%);
+    background-attachment: fixed;
+}

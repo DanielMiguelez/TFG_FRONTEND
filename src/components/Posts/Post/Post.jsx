@@ -1,81 +1,76 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './Post.css'
-import { getAllPosts, like, unlike } from '../../../features/posts/postsSlice'
+import { getAllPosts, like, unlike, insertComment } from '../../../features/posts/postsSlice'
 import { Link } from "react-router-dom";
 import { HeartOutlined, DislikeOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
-import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 
 const Post = () => {
   const { posts } = useSelector(state => state.posts)
-  const dispatch = useDispatch()
+  const [comments, setComments] = useState({});
+  const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
 
-  const showNotification = (type, message, description) => {
-    api[type]({
-      message,
-      description,
-      icon: type === 'success' ? (
-        <CheckCircleFilled 
-          style={{ 
-            color: '#008000 !important',
-            fontSize: '24px',
-          }}
-          className="success-icon"
-        />
-      ) : (
-        <CloseCircleFilled 
-          style={{ 
-            color: '#ff4d4f',
-            fontSize: '24px',
-          }}
-        />
-      ),
-      placement: 'topRight',
-      duration: 2,
-      className: type === 'success' ? 'custom-success-notification' : '',
-      style: {
-        borderRadius: '8px',
-      },
+  const showSuccessNotification = () => {
+    api.success({
+      message: 'Comentario añadido',
+      description: 'Tu comentario se ha añadido correctamente',
     });
   };
 
-  const onLike = async (id, title) => {
-    try {
-      await dispatch(like(id)).unwrap();
-      await dispatch(getAllPosts());
-      showNotification(
-        'success',
-        '¡Me gusta!',
-        `Has dado like al post "${title}"`
-      );
-    } catch (error) {
-      showNotification(
-        'error',
-        'Error',
-        'No se pudo dar like al post'
-      );
-    }
+  const showErrorNotification = (error) => {
+    api.error({
+      message: 'Error',
+      description: error || 'No se pudo añadir el comentario',
+    });
+  };
+
+  const onLike = async (id) => {
+    await dispatch(like(id))
+    dispatch(getAllPosts())
   }
 
-  const onUnlike = async (id, title) => {
-    try {
-      await dispatch(unlike(id)).unwrap();
-      await dispatch(getAllPosts());
-      showNotification(
-        'info',
-        'Like removido',
-        `Has quitado tu like del post "${title}"`
-      );
-    } catch (error) {
-      showNotification(
-        'error',
-        'Error',
-        'No se pudo quitar el like del post'
-      );
-    }
+  const onUnlike = async (id) => {
+    await dispatch(unlike(id))
+    dispatch(getAllPosts())
   }
+
+  const handleSubmitComment = async (postId, e) => {
+    e.preventDefault();
+    const commentContent = comments[postId]?.trim();
+    
+    if (!commentContent) {
+      showErrorNotification('El comentario no puede estar vacío');
+      return;
+    }
+
+    try {
+      await dispatch(insertComment({
+        postId,
+        comment: commentContent  // Cambiado para coincidir con el backend
+      })).unwrap();
+      
+      // Limpiar solo el comentario del post específico
+      setComments(prev => ({
+        ...prev,
+        [postId]: ''
+      }));
+      
+      showSuccessNotification();
+      dispatch(getAllPosts());
+    } catch (error) {
+      const errorMessage = error?.response?.data?.msg || 'No se pudo añadir el comentario';
+      showErrorNotification(errorMessage);
+    }
+  };
+
+  const handleCommentChange = (postId, value) => {
+    setComments(prev => ({
+      ...prev,
+      [postId]: value
+    }));
+  };
 
   return (
     <>
@@ -98,12 +93,46 @@ const Post = () => {
             <span>{post.likes.length} Likes</span>
             
             <div className="buttons">
-              <button onClick={() => onLike(post._id, post.title)}><HeartOutlined /></button>
-              <button onClick={() => onUnlike(post._id, post.title)}><DislikeOutlined /></button>
+              <button onClick={() => onLike(post._id)}><HeartOutlined /></button>
+              <button onClick={() => onUnlike(post._id)}><DislikeOutlined /></button>
             </div>
             
             <span>{post.date}</span>
+
+            {post.reviews && post.reviews.length > 0 && (
+              <div className="comments-section">
+                <h4>Comentarios:</h4>
+                {post.reviews.map((review, index) => (
+                  <div key={index} className="comment">
+                    <p className="comment-content">{review.comment}</p>
+                    <span className="comment-author">Por: {review.userId?.name || 'Usuario'}</span>
+                    <span className="comment-date">
+                      {new Date(review.date).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </span>
+                     <button ><HeartOutlined /></button>
+              <button><DislikeOutlined /></button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+          <form onSubmit={(e) => handleSubmitComment(post._id, e)} className="comment-form">
+            <textarea
+              value={comments[post._id] || ''}
+              onChange={(e) => handleCommentChange(post._id, e.target.value)}
+              placeholder="Escribe tu comentario..."
+              className="comment-textarea"
+            />
+            <button type="submit" className="comment-submit-button">
+              Enviar comentario
+            </button>
+          </form>
         </div>
       ))}
     </>

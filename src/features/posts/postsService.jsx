@@ -25,6 +25,19 @@ const createPost = async (postData) => {
   return response.data;
 }
 
+const insertComment = async (postId, comment) => {
+  const token = getToken();
+  const response = await axios.put(
+    `${API_URL}/posts/insertComment/${postId}`,
+    { comment },
+    { 
+      headers: { 
+        Authorization: `Bearer ${token}` 
+      } 
+    }
+  );
+  return response.data;
+}
 
 const getAllPosts = async () => {
   const response = await axios.get(API_URL + "/posts/getAllPosts")
@@ -88,7 +101,8 @@ const postsService = {
   unlike,
   getById,
   getPostByName,
-  deletePost
+  deletePost,
+  insertComment
 }
 
 export default postsService;

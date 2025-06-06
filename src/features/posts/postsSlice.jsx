@@ -75,6 +75,19 @@ export const deletePost = createAsyncThunk(
     }
 );
 
+export const insertComment = createAsyncThunk(
+    "posts/insertComment",
+    async ({ postId, comment }, thunkAPI) => {
+        try {
+            const response = await postsService.insertComment(postId, comment);
+            return response;
+        } catch (error) {
+            const message = error.response?.data?.message || error.message || "Error al añadir el comentario";
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
 export const postsSlice = createSlice({
     name: "posts",
     initialState,
@@ -133,8 +146,25 @@ export const postsSlice = createSlice({
             .addCase(deletePost.fulfilled, (state, action) => {
                 state.posts = state.posts.filter((post) => post._id !== action.payload._id);
             })
-
-
+            .addCase(insertComment.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(insertComment.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const updatedPost = action.payload.post;
+                state.posts = state.posts.map(post =>
+                    post._id === updatedPost._id ? updatedPost : post
+                );
+                if (state.post._id === updatedPost._id) {
+                    state.post = updatedPost;
+                }
+            })
+            .addCase(insertComment.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+                toast.error(action.payload || "Error al añadir el comentario");
+            })
     }
 })
 
