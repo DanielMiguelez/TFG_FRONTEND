@@ -22,7 +22,8 @@ const PostDetail = () => {
             <p className="title">{post?.title}</p>
 
             <img
-                      src={`http://localhost:8000/uploads/${post.image}`}
+                        //src={`http://localhost:8000/uploads/${post.image}`}
+                      src={`https://tfg-backend-xgxu.vercel.app/uploads/${post.image}`}
                       alt="Post"
                       className="post-image"
                     />

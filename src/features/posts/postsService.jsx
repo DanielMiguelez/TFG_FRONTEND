@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = "http://localhost:8000";
+const API_URL = "https://tfg-backend-xgxu.vercel.app";
 
 
 const getToken = () => {
@@ -77,12 +77,6 @@ const getById = async (id) => {
   return res.data;
 };
 
-
-const getPostByName = async (title) => {
-  const response = await axios.get(API_URL + "/posts/getPostByTitle/" + title);
-  return response.data;
-};
-
 const deletePost = async (id) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const response = await axios.delete(API_URL + "/posts/deletePostById/" + id, {
@@ -93,14 +87,12 @@ const deletePost = async (id) => {
   return response.data;
 };
 
-
 const postsService = {
   createPost,
   getAllPosts,
   like,
   unlike,
   getById,
-  getPostByName,
   deletePost,
   insertComment
 }

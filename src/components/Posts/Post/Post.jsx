@@ -5,6 +5,7 @@ import { getAllPosts, like, unlike, insertComment } from '../../../features/post
 import { Link } from "react-router-dom";
 import { HeartOutlined, DislikeOutlined } from '@ant-design/icons';
 import { notification } from 'antd';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 
 const Post = () => {
   const { posts } = useSelector(state => state.posts)
@@ -12,28 +13,44 @@ const Post = () => {
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
 
-  const showSuccessNotification = () => {
+  const showSuccessNotification = (message, description) => {
     api.success({
-      message: 'Comentario añadido',
-      description: 'Tu comentario se ha añadido correctamente',
+      message,
+      description,
+      icon: <CheckCircleFilled style={{ color: '#52c41a' }} />,
+      placement: 'topRight',
+      duration: 3,
     });
   };
 
-  const showErrorNotification = (error) => {
+  const showErrorNotification = (message, description) => {
     api.error({
-      message: 'Error',
-      description: error || 'No se pudo añadir el comentario',
+      message,
+      description,
+      icon: <CloseCircleFilled style={{ color: '#ff4d4f' }} />,
+      placement: 'topRight',
+      duration: 3,
     });
   };
 
   const onLike = async (id) => {
-    await dispatch(like(id))
-    dispatch(getAllPosts())
+    try {
+      await dispatch(like(id)).unwrap();
+      dispatch(getAllPosts());
+      showSuccessNotification('Éxito', 'Has dado like al post correctamente');
+    } catch (error) {
+      showErrorNotification('Error', 'Ya diste like a este post');
+    }
   }
 
   const onUnlike = async (id) => {
-    await dispatch(unlike(id))
-    dispatch(getAllPosts())
+    try {
+      await dispatch(unlike(id)).unwrap();
+      dispatch(getAllPosts());
+      showSuccessNotification('Éxito', 'Has quitado el like del post');
+    } catch (error) {
+      showErrorNotification('Error', 'No se pudo quitar el like');
+    }
   }
 
   const handleSubmitComment = async (postId, e) => {
@@ -41,27 +58,26 @@ const Post = () => {
     const commentContent = comments[postId]?.trim();
     
     if (!commentContent) {
-      showErrorNotification('El comentario no puede estar vacío');
+      showErrorNotification('Error', 'El comentario no puede estar vacío');
       return;
     }
 
     try {
       await dispatch(insertComment({
         postId,
-        comment: commentContent  // Cambiado para coincidir con el backend
+        comment: commentContent  
       })).unwrap();
       
-      // Limpiar solo el comentario del post específico
       setComments(prev => ({
         ...prev,
         [postId]: ''
       }));
       
-      showSuccessNotification();
+      showSuccessNotification('Éxito', 'Tu comentario se ha añadido correctamente');
       dispatch(getAllPosts());
     } catch (error) {
       const errorMessage = error?.response?.data?.msg || 'No se pudo añadir el comentario';
-      showErrorNotification(errorMessage);
+      showErrorNotification('Error', errorMessage);
     }
   };
 
@@ -84,7 +100,7 @@ const Post = () => {
             
             {post.image && (
               <img
-                src={`http://localhost:8000/uploads/${post.image}`}
+                src={`https://tfg-backend-xgxu.vercel.app/uploads/${post.image}`}
                 alt="Post"
                 className="post-image"
               />

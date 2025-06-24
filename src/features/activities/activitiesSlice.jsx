@@ -10,7 +10,7 @@ export const createActivity = createAsyncThunk(
     "activities/createActivity",
     async (formData) => {
       const response = await activitiesService.createActivity(formData);
-      return response.activity; // Asumo que el backend devuelve el objeto en response.activity
+      return response.activity; 
     }
   );
 

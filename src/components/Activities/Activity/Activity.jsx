@@ -75,7 +75,7 @@ const Activity = () => {
               <span className="activity-title">{activity.title}</span>
               {activity.image && (
                 <img
-                  src={`http://localhost:8000${activity.image}`}
+                  src={`https://tfg-backend-xgxu.vercel.app${activity.image}`}
                   alt={activity.title}
                   className="activity-image"
                 />

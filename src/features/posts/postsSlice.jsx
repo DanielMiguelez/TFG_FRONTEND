@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import postsService from "./postsService"
 import { toast } from 'react-toastify';
+import { notification } from 'antd';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 
 
 const initialState = {
@@ -120,6 +122,14 @@ export const postsSlice = createSlice({
                 state.posts = state.posts.map(post =>
                     post._id === updatedPost._id ? updatedPost : post
                 );
+                
+                notification.success({
+                    message: 'Éxito',
+                    description: 'Has dado like al post correctamente',
+                    icon: <CheckCircleFilled style={{ color: '#52c41a' }} />,
+                    placement: 'topRight',
+                    duration: 3,
+                });
             })
 
             .addCase(unlike.fulfilled, (state, action) => {
@@ -137,7 +147,13 @@ export const postsSlice = createSlice({
             })
 
             .addCase(like.rejected, (state, action) => {
-                toast.error("Ya diste like a este post");
+                notification.error({
+                    message: 'Error',
+                    description: 'Ya diste like a este post',
+                    icon: <CloseCircleFilled style={{ color: '#ff4d4f' }} />,
+                    placement: 'topRight',
+                    duration: 3,
+                });
             })
 
             .addCase(getById.fulfilled, (state, action) => {

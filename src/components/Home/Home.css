@@ -30,35 +30,51 @@
 
 .form-section {
   flex: 1;
-  min-width: 250px;
-  max-width: 400px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  min-width: 280px;
+  max-width: 480px;
+  background-color: #195f30;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-section h2 {
-  color: #333;
-  margin-bottom: 20px;
   font-size: 1.5rem;
+  color: #f4f4f4;
+  margin-bottom: 16px;
+  text-align: center;
+  width: 100%;
 }
 
 .create-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
+  align-items: center;
 }
 
 .form-group {
   margin-bottom: 15px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  color: #666;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #f4f4f4;
+  width: 100%;
+  text-align: center;
 }
 
 .form-group input[type="text"],
@@ -71,6 +87,7 @@
   border-radius: 4px;
   font-size: 14px;
   transition: border-color 0.3s ease;
+  text-align: center;
 }
 
 .form-group input[type="file"] {
@@ -78,6 +95,7 @@
   padding: 10px;
   border-radius: 4px;
   width: 100%;
+  text-align: center;
 }
 
 .form-group input:focus,
@@ -97,6 +115,9 @@
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 200px;
+  margin-top: 10px;
 }
 
 .submit-button:hover {
@@ -120,7 +141,7 @@
   }
 }
 
-/* Estilos para las notificaciones */
+
 .custom-success-notification .ant-notification-notice-icon {
   color: #008000 !important;
 }

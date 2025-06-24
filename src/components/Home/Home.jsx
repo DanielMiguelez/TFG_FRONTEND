@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { createActivity, getAllActivities } from "../../features/activities/activitiesSlice";
 import { notification } from 'antd';
 import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 import "./Home.css";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const activities = useSelector((state) => state.activities.activities);
   const [api, contextHolder] = notification.useNotification();
 
@@ -84,6 +86,11 @@ export default function Home() {
         'El post se ha creado correctamente'
       );
       setPostData({ title: "", content: "", image: null });
+      
+      // Redirigir a la página de posts después de 1.5 segundos
+      setTimeout(() => {
+        navigate("/posts");
+      }, 1500);
     } catch (error) {
       console.error("Error al crear post:", error);
       showErrorNotification(
